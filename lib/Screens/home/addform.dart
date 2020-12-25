@@ -23,12 +23,14 @@ class _AddFormState extends State<AddForm> {
   int rId = 0;
   String numSeats = '';
   String numTables = '';
-  String timeRes = '';
+  //String timeRes;
+  //var timeRes = {'time1':'10AM','time2':'10:30AM','time3':'11:30AM','time4':'12:00PM',
+  //'time5':'1:00PM','time6':'2:00PM','time7':'3:00PM','time8':'5:00PM','time9':'7:00PM','time10':'9:00PM'};
   String headline = '';
   String description = '';
   var resImgUrl;
   bool loading = false;
-
+  
   RestaurantDetail restaurant = new RestaurantDetail();
 
   RestaurantService resServ = new RestaurantService();
@@ -62,7 +64,7 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: name,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(labelText: 'Name'),
+      decoration: InputDecoration(labelText: 'Name',icon: Icon(Icons.text_fields)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -83,7 +85,7 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       keyboardType: TextInputType.number,
       initialValue: rId == 0 ? "" : rId.toString(),
-      decoration: InputDecoration(labelText: 'Id'),
+      decoration: InputDecoration(labelText: 'Id',icon: Icon(Icons.vpn_key)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -99,20 +101,46 @@ class _AddFormState extends State<AddForm> {
     );
   }
 
-  // Widget _buildResRateField() {
+  Widget _buildResRateField() {
+    return TextFormField(
+      initialValue: rate,
+      decoration: InputDecoration(labelText: 'Rate',icon: Icon(Icons.star)),
+      // ignore: missing_return
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Rate is Required';
+        }
+      },
+      onChanged: (value) {
+        setState(() {
+          rate = value;
+          restaurant.rate = int.parse(value);
+        });
+      },
+    );
+  }
+ 
+
+  // Widget _buildResTimeResField() {
+
+  //     //var x=timeRes.values.toList();
+   
   //   return TextFormField(
-  //     initialValue: rate,
-  //     decoration: InputDecoration(labelText: 'Evaluation'),
+      
+  //    initialValue: timeRes,
+  //     //initialValue:timeRes[1],
+  //     keyboardType: TextInputType.number,
+  //     decoration: InputDecoration(labelText: 'Time',icon: Icon(Icons.timer)),
   //     // ignore: missing_return
-  //     validator: (String value) {
+  //     validator: ( var value) {
   //       if (value.isEmpty) {
-  //         return 'Rate is Required';
+  //         return 'Time for Reservation is Required';
   //       }
   //     },
   //     onChanged: (value) {
   //       setState(() {
-  //         rate = value;
-  //         restaurant.rate = value;
+  //         timeRes = value;
+  //         restaurant.timeRes = int.parse(value);
   //       });
   //     },
   //   );
@@ -121,7 +149,7 @@ class _AddFormState extends State<AddForm> {
   Widget _buildResLocationField() {
     return TextFormField(
       initialValue: location,
-      decoration: InputDecoration(labelText: 'Address'),
+      decoration: InputDecoration(labelText: 'Address',icon: Icon(Icons.location_on)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -141,11 +169,11 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: hotline,
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: 'hotline'),
+      decoration: InputDecoration(labelText: 'Hotline',icon: Icon(Icons.phone)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
-          return 'hotline is Required';
+          return 'Hotline is Required';
         }
       },
       onChanged: (value) {
@@ -160,11 +188,11 @@ class _AddFormState extends State<AddForm> {
   Widget _buildResheadlineField() {
     return TextFormField(
       initialValue: location,
-      decoration: InputDecoration(labelText: 'headline'),
+      decoration: InputDecoration(labelText: 'Headline',icon: Icon(Icons.view_headline)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
-          return 'headline is Required';
+          return 'Headline is Required';
         }
       },
       onChanged: (value) {
@@ -180,7 +208,7 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: catId,
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: 'Category ID'),
+      decoration: InputDecoration(labelText: 'Category ID',icon: Icon(Icons.lock)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -200,7 +228,7 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: categoryN,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(labelText: 'Category Name'),
+      decoration: InputDecoration(labelText: 'Category Name',icon: Icon(Icons.text_format)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -216,45 +244,45 @@ class _AddFormState extends State<AddForm> {
     );
   }
 
-  // Widget _buildResnumseatsField() {
-  //   return TextFormField(
-  //     keyboardType: TextInputType.number,
-  //     initialValue: numSeats,
-  //     decoration: InputDecoration(labelText: 'number of seats'),
-  //     // ignore: missing_return
-  //     validator: (String value) {
-  //       if (value.isEmpty) {
-  //         return 'number of seats is Required';
-  //       }
-  //     },
-  //     onChanged: (value) {
-  //       setState(() {
-  //         numSeats = value;
-  //         restaurant.numSeats = value;
-  //       });
-  //     },
-  //   );
-  // }
+  Widget _buildResnumseatsField() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      initialValue: numSeats,
+      decoration: InputDecoration(labelText: 'Number of seats',icon: Icon(Icons.event_seat)),
+      // ignore: missing_return
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Number of seats is Required';
+        }
+      },
+      onChanged: (value) {
+        setState(() {
+          numSeats = value;
+          restaurant.numSeats = int.parse(value);
+        });
+      },
+    );
+  }
 
-  // Widget _buildResnumtablesField() {
-  //   return TextFormField(
-  //     keyboardType: TextInputType.number,
-  //     initialValue: numTables,
-  //     decoration: InputDecoration(labelText: 'number of tables'),
-  //     // ignore: missing_return
-  //     validator: (String value) {
-  //       if (value.isEmpty) {
-  //         return 'number of tables is Required';
-  //       }
-  //     },
-  //     onChanged: (value) {
-  //       setState(() {
-  //         numTables = value;
-  //         restaurant.numTables = value;
-  //       });
-  //     },
-  //   );
-  // }
+  Widget _buildResnumtablesField() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      initialValue: numTables,
+      decoration: InputDecoration(labelText: 'Number of tables',icon: Icon(Icons.table_chart)),
+      // ignore: missing_return
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Number of tables is Required';
+        }
+      },
+      onChanged: (value) {
+        setState(() {
+          numTables = value;
+          restaurant.numTables = int.parse(value);
+        });
+      },
+    );
+  }
 
   Widget _buildimageField() {
     return IconButton(
@@ -269,7 +297,7 @@ class _AddFormState extends State<AddForm> {
 
   Widget _buildResDescriptionField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Description'),
+      decoration: InputDecoration(labelText: 'Description',icon: Icon(Icons.description)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -307,12 +335,13 @@ class _AddFormState extends State<AddForm> {
                       _buildResLocationField(),
                       _buildResheadlineField(),
                       _buildResDescriptionField(),
-                      // _buildResRateField(),
+                       _buildResRateField(),
                       _buildReshotlineField(),
-                      // _buildResnumseatsField(),
-                      // _buildResnumtablesField(),
+                       _buildResnumseatsField(),
+                      _buildResnumtablesField(),
                       _buildCatNameField(),
                       _buildCatIdField(),
+                      //_buildResTimeResField(),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 50.0),
                         child: Row(
@@ -323,7 +352,7 @@ class _AddFormState extends State<AddForm> {
                             ),
                             Spacer(),
                             RaisedButton(
-                              color: Colors.lightBlue[300],
+                              color: Colors.green[500],
                               onPressed: () {
                                 if (!_formKey.currentState.validate()) {
                                   return;
@@ -343,7 +372,7 @@ class _AddFormState extends State<AddForm> {
                               child: Text(
                                 'Add',
                                 style: TextStyle(
-                                    color: Colors.blue[900], fontSize: 16),
+                                    color: Colors.white, fontSize: 16),
                               ),
                             ),
                           ],

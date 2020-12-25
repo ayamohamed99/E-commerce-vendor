@@ -62,8 +62,7 @@ class _HomeState extends State<Home> {
       child: Card(
         child: FlatButton(
           onPressed: () {},
-          child: Text(category[k].categoryName,
-           style: TextStyle(fontSize: 20)),
+          child: Text(category[k].categoryName, style: TextStyle(fontSize: 20)),
         ),
       ),
     );
@@ -78,8 +77,8 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget>[
             SizedBox(
-                height: 30,
-              ),
+              height: 30,
+            ),
             Container(
               height: 150,
               child: Image.asset(
@@ -95,8 +94,10 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50)),
-                child: Text(restaurant[restaurant.length - index - 1].name,
-                style: TextStyle(fontSize: 25),),
+                child: Text(
+                  restaurant[restaurant.length - index - 1].name,
+                  style: TextStyle(fontSize: 25),
+                ),
                 onPressed: () {
                   setState(() async {
                     await resServ.update(
@@ -131,11 +132,10 @@ class _HomeState extends State<Home> {
               ),
             ]),
             SizedBox(
-                height: 30,
-              ),
+              height: 30,
+            ),
           ],
         ),
-        
       ),
     );
   }
@@ -145,79 +145,92 @@ class _HomeState extends State<Home> {
     if (restaurant == null) return Loading();
     return Scaffold(
       drawer: Drawer(
-            child: Column(
-              
-              children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: 100,
-            padding: EdgeInsets.all(8),
-            color: Colors.green[500],
-            child: Center(
-                child: Text(
-              'add',
-              style: TextStyle(fontSize: 25,
+          child: Column(children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 100,
+          padding: EdgeInsets.all(8),
+          color: Colors.green[500],
+          child: Center(
+              child: Text(
+            'Restaurant App',
+            style: TextStyle(
+              fontSize: 25,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-               height: 3,
-              
-              ),
-            )),
-          ),
-          SizedBox(height: 30,),
-          Container(
-            padding: EdgeInsets.only(right: 150),
-          child:  FlatButton.icon(
+              height: 3,
+            ),
+          )),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          child: FlatButton.icon(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => AddForm()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddForm()));
               },
-              icon: Icon(Icons.home,),
+              icon: Icon(
+                Icons.add_box,
+                color: Colors.blue,
+                size: 30,
+              ),
               label: Text(
-                'Home',
-                style: TextStyle(fontSize: 25,
-                fontWeight: FontWeight.bold,
+                'Add Restaurant',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
-                
               )),
-          ),
-          
-              SizedBox(height: 30,),
-             
-          Container(
-            padding: EdgeInsets.only(right:35),
-            child:  Row(
-             children: [
-               SizedBox(width:30,),
-               Text('Rate  ',
-                style: TextStyle(fontSize: 25 , color: Colors.black,
-                fontWeight: FontWeight.w500),),
-                Card(
-                  child:SmoothStarRating(
-                    isReadOnly: true,
-                    size: 20,
-                    filledIconData: Icons.star,
-                    halfFilledIconData: Icons.star_half,
-                    defaultIconData: Icons.star_border,
-                    starCount: 5,
-                    color: Colors.yellow[900],
-                    borderColor: Colors.yellow[900],
-                    allowHalfRating: true,
-                    spacing: 2.0,
-                    onRated: null,
-                  ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          child: FlatButton.icon(
+              onPressed: () {
+                
+              },
+              icon: Icon(
+                Icons.notifications_active,
+                color: Colors.red,
+                size: 30,
+              ),
+              label: Text(
+                ' Notifications',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
-               
-             ],
-           ),
-          ),
-          
-              
-        ])),
+              )),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          child: FlatButton.icon(
+              onPressed: () {
+                
+              },
+              icon: Icon(
+                Icons.remove_red_eye,
+                color: Colors.green,
+                size: 30,
+              ),
+              label: Text(
+                ' View booked \n\t Tables',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
+      ])),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('E-Commerce Project'),
+        title: Text('Vendor App'),
         backgroundColor: Colors.green[400],
       ),
       body: Container(
@@ -233,12 +246,12 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Text(
-                ' Our Restaurant',
+                ' The Restaurants ',
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.green[700],
-                    fontStyle: FontStyle.italic),
+                    fontStyle: FontStyle.normal),
               ),
               Spacer(),
               FlatButton.icon(
@@ -257,7 +270,7 @@ class _HomeState extends State<Home> {
                   )),
             ],
           ),
-          
+
           // Visibility(
           //   visible: _visible,
           //   child: Row(children: [
