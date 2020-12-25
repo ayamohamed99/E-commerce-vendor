@@ -16,7 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // final AuthService _auth = AuthService();
-
+ bool loading = true;
   List<CategoryDetail> category;
 
   CategoryService catServ = new CategoryService();
@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
     _fechRestaurantData();
   }
 
+
   bool _visible = false;
 
   List<RestaurantDetail> restaurant;
@@ -44,6 +45,11 @@ class _HomeState extends State<Home> {
   Future<List<RestaurantDetail>> _fechRestaurantData() async {
     restaurant = await resServ.fetchData();
     resSort = await resServ.fetchData();
+     setState(() {
+      if(restaurant != null)
+        loading = false;
+      else loading = true;
+    });
   }
 
   // // ignore: must_call_super
@@ -81,7 +87,7 @@ class _HomeState extends State<Home> {
             ),
             Container(
               height: 150,
-              child: Image.asset(
+              child: Image.network(
                 restaurant[restaurant.length - index - 1].img,
                 fit: BoxFit.fill,
               ),
@@ -142,8 +148,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (restaurant == null) return Loading();
-    return Scaffold(
+    return loading ?  Loading()
+     :Scaffold(
       drawer: Drawer(
           child: Column(children: <Widget>[
         Container(

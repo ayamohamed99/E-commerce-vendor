@@ -28,7 +28,7 @@ class _AddFormState extends State<AddForm> {
   //'time5':'1:00PM','time6':'2:00PM','time7':'3:00PM','time8':'5:00PM','time9':'7:00PM','time10':'9:00PM'};
   String headline = '';
   String description = '';
-  var resImgUrl;
+  // var resImgUrl;
   bool loading = false;
   
   RestaurantDetail restaurant = new RestaurantDetail();
@@ -43,11 +43,11 @@ class _AddFormState extends State<AddForm> {
 
   Future uploadFile(img) async {
     StorageReference storageReference =
-        FirebaseStorage.instance.ref().child('user/${img.path}');
+        FirebaseStorage.instance.ref().child('restaurant/${img.path}');
     StorageUploadTask uploadTask = storageReference.putFile(img);
     await uploadTask.onComplete;
     print('File Uploaded');
-    restaurant.imgUrl = await storageReference.getDownloadURL();
+    restaurant.img = await storageReference.getDownloadURL();
     return await storageReference.getDownloadURL();
   }
 
@@ -55,7 +55,8 @@ class _AddFormState extends State<AddForm> {
     var result = await ImagePicker().getImage(source: ImageSource.gallery);
     setState(() {
       img = File(result.path);
-      resImgUrl = uploadFile(img);
+      // resImgUrl = 
+      uploadFile(img);
     });
   }
 
@@ -305,16 +306,15 @@ class _AddFormState extends State<AddForm> {
         }
       },
       onSaved: (String value) {
-        description = value;
+        description = value;       
+        restaurant.description = description;
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Loading()
-        : Scaffold(
+    return Scaffold(
             resizeToAvoidBottomPadding: false,
             backgroundColor: Colors.white,
             appBar: AppBar(
