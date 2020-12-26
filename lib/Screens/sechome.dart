@@ -90,7 +90,7 @@ Future<void>_showMyDialog() async {
           Container(
             margin: EdgeInsets.all(20),
             height: 250,
-            child: Image.asset(
+            child: Image.network(
               resImg,
               fit: BoxFit.fill,
             ),

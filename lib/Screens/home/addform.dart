@@ -87,27 +87,7 @@ class _AddFormState extends State<AddForm> {
     );
   }
 
-  // ignore: unused_element
-  Widget _buildResIdField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      initialValue: rId == 0 ? "" : rId.toString(),
-      decoration: InputDecoration(labelText: 'Id', icon: Icon(Icons.vpn_key)),
-      // ignore: missing_return
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Restaurant id is Required';
-        }
-      },
-      onChanged: (value) {
-        setState(() {
-          rId = int.parse(value);
-          restaurant.rId = value;
-        });
-      },
-    );
-  }
-
+ 
   Widget _buildResRateField() {
     return TextFormField(
       initialValue: rate,
@@ -152,25 +132,25 @@ class _AddFormState extends State<AddForm> {
   //   );
   // }
 
-  Widget _buildResLocationField() {
-    return TextFormField(
-      initialValue: location,
-      decoration:
-          InputDecoration(labelText: 'Address', icon: Icon(Icons.location_on)),
-      // ignore: missing_return
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Address is Required';
-        }
-      },
-      onChanged: (value) {
-        setState(() {
-          location = value;
-          restaurant.location = value;
-        });
-      },
-    );
-  }
+  // Widget _buildResLocationField() {
+  //   return TextFormField(
+  //     initialValue: location,
+  //     decoration:
+  //         InputDecoration(labelText: 'Address', icon: Icon(Icons.location_on)),
+  //     // ignore: missing_return
+  //     validator: (String value) {
+  //       if (value.isEmpty) {
+  //         return 'Address is Required';
+  //       }
+  //     },
+  //     onChanged: (value) {
+  //       setState(() {
+  //         location = value;
+  //         restaurant.location = value;
+  //       });
+  //     },
+  //   );
+  // }
 
   Widget _buildReshotlineField() {
     return TextFormField(
@@ -344,9 +324,8 @@ class _AddFormState extends State<AddForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               // mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                _buildResIdField(),
                 _buildResNameField(),
-                _buildResLocationField(),
+                // _buildResLocationField(),
                 _buildResheadlineField(),
                 _buildResDescriptionField(),
                 _buildResRateField(),
