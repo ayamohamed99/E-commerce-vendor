@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(50)),
                 child: Text(
                   restaurant[restaurant.length - index - 1].name,
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
                   setState(() async {
@@ -234,8 +234,10 @@ class _HomeState extends State<Home> {
               )),
         ),
       ])),
+
       backgroundColor: Colors.white,
       appBar: AppBar(
+        
         title: Text('Vendor App'),
         backgroundColor: Colors.green[400],
       ),
@@ -247,14 +249,14 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Icon(
                   FontAwesomeIcons.utensils,
-                  size: 20,
+                  size: 15,
                   color: Colors.amber[600],
                 ),
               ),
               Text(
                 ' The Restaurants ',
                 style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.green[700],
                     fontStyle: FontStyle.normal),

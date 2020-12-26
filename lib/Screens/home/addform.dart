@@ -1,5 +1,6 @@
 import 'package:ecommerce/Components/loading.dart';
 import 'package:ecommerce/Models/restaurantDetail.dart';
+import 'package:ecommerce/Screens/home/home.dart';
 import 'package:ecommerce/Services/restaurant.Services.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,14 +24,11 @@ class _AddFormState extends State<AddForm> {
   int rId = 0;
   String numSeats = '';
   String numTables = '';
-  //String timeRes;
-  //var timeRes = {'time1':'10AM','time2':'10:30AM','time3':'11:30AM','time4':'12:00PM',
-  //'time5':'1:00PM','time6':'2:00PM','time7':'3:00PM','time8':'5:00PM','time9':'7:00PM','time10':'9:00PM'};
   String headline = '';
   String description = '';
-  // var resImgUrl;
-  bool loading = false;
-  
+  var resImgUrl;
+  bool loading = true;
+
   RestaurantDetail restaurant = new RestaurantDetail();
 
   RestaurantService resServ = new RestaurantService();
@@ -41,13 +39,19 @@ class _AddFormState extends State<AddForm> {
 
   String fileName;
 
+  // void initState() {
+  //   setState(() {
+
+  //   });
+  // }
+
   Future uploadFile(img) async {
     StorageReference storageReference =
         FirebaseStorage.instance.ref().child('restaurant/${img.path}');
     StorageUploadTask uploadTask = storageReference.putFile(img);
     await uploadTask.onComplete;
+    // restaurant.img = await storageReference.getDownloadURL();
     print('File Uploaded');
-    restaurant.img = await storageReference.getDownloadURL();
     return await storageReference.getDownloadURL();
   }
 
@@ -55,8 +59,9 @@ class _AddFormState extends State<AddForm> {
     var result = await ImagePicker().getImage(source: ImageSource.gallery);
     setState(() {
       img = File(result.path);
-      // resImgUrl = 
-      uploadFile(img);
+      resImgUrl = uploadFile(img);
+      // if(restaurant.img == null)
+      // Loading();
     });
   }
 
@@ -65,7 +70,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: name,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(labelText: 'Name',icon: Icon(Icons.text_fields)),
+      decoration:
+          InputDecoration(labelText: 'Name', icon: Icon(Icons.text_fields)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -86,7 +92,7 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       keyboardType: TextInputType.number,
       initialValue: rId == 0 ? "" : rId.toString(),
-      decoration: InputDecoration(labelText: 'Id',icon: Icon(Icons.vpn_key)),
+      decoration: InputDecoration(labelText: 'Id', icon: Icon(Icons.vpn_key)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -105,7 +111,7 @@ class _AddFormState extends State<AddForm> {
   Widget _buildResRateField() {
     return TextFormField(
       initialValue: rate,
-      decoration: InputDecoration(labelText: 'Rate',icon: Icon(Icons.star)),
+      decoration: InputDecoration(labelText: 'Rate', icon: Icon(Icons.star)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -120,14 +126,13 @@ class _AddFormState extends State<AddForm> {
       },
     );
   }
- 
 
   // Widget _buildResTimeResField() {
 
   //     //var x=timeRes.values.toList();
-   
+
   //   return TextFormField(
-      
+
   //    initialValue: timeRes,
   //     //initialValue:timeRes[1],
   //     keyboardType: TextInputType.number,
@@ -150,7 +155,8 @@ class _AddFormState extends State<AddForm> {
   Widget _buildResLocationField() {
     return TextFormField(
       initialValue: location,
-      decoration: InputDecoration(labelText: 'Address',icon: Icon(Icons.location_on)),
+      decoration:
+          InputDecoration(labelText: 'Address', icon: Icon(Icons.location_on)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -170,7 +176,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: hotline,
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: 'Hotline',icon: Icon(Icons.phone)),
+      decoration:
+          InputDecoration(labelText: 'Hotline', icon: Icon(Icons.phone)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -189,7 +196,8 @@ class _AddFormState extends State<AddForm> {
   Widget _buildResheadlineField() {
     return TextFormField(
       initialValue: location,
-      decoration: InputDecoration(labelText: 'Headline',icon: Icon(Icons.view_headline)),
+      decoration: InputDecoration(
+          labelText: 'Headline', icon: Icon(Icons.view_headline)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -209,7 +217,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: catId,
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: 'Category ID',icon: Icon(Icons.lock)),
+      decoration:
+          InputDecoration(labelText: 'Category ID', icon: Icon(Icons.lock)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -229,7 +238,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       initialValue: categoryN,
       keyboardType: TextInputType.text,
-      decoration: InputDecoration(labelText: 'Category Name',icon: Icon(Icons.text_format)),
+      decoration: InputDecoration(
+          labelText: 'Category Name', icon: Icon(Icons.text_format)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -249,7 +259,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       keyboardType: TextInputType.number,
       initialValue: numSeats,
-      decoration: InputDecoration(labelText: 'Number of seats',icon: Icon(Icons.event_seat)),
+      decoration: InputDecoration(
+          labelText: 'Number of seats', icon: Icon(Icons.event_seat)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -269,7 +280,8 @@ class _AddFormState extends State<AddForm> {
     return TextFormField(
       keyboardType: TextInputType.number,
       initialValue: numTables,
-      decoration: InputDecoration(labelText: 'Number of tables',icon: Icon(Icons.table_chart)),
+      decoration: InputDecoration(
+          labelText: 'Number of tables', icon: Icon(Icons.table_chart)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -298,7 +310,8 @@ class _AddFormState extends State<AddForm> {
 
   Widget _buildResDescriptionField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Description',icon: Icon(Icons.description)),
+      decoration: InputDecoration(
+          labelText: 'Description', icon: Icon(Icons.description)),
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -306,7 +319,7 @@ class _AddFormState extends State<AddForm> {
         }
       },
       onSaved: (String value) {
-        description = value;       
+        description = value;
         restaurant.description = description;
       },
     );
@@ -314,75 +327,80 @@ class _AddFormState extends State<AddForm> {
 
   @override
   Widget build(BuildContext context) {
+    // loading ? Loading():
     return Scaffold(
-            resizeToAvoidBottomPadding: false,
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.green[600],
-              title: Text('Add Restaurant'),
-            ),
-            body: ListView(
-              padding: EdgeInsets.all(20),
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.green[600],
+        title: Text('Add Restaurant'),
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(20),
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // mainAxisSize: MainAxisSize.max,
+                _buildResIdField(),
+                _buildResNameField(),
+                _buildResLocationField(),
+                _buildResheadlineField(),
+                _buildResDescriptionField(),
+                _buildResRateField(),
+                _buildReshotlineField(),
+                _buildResnumseatsField(),
+                _buildResnumtablesField(),
+                _buildCatNameField(),
+                _buildCatIdField(),
+                //_buildResTimeResField(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0),
+                  child: Row(
                     children: <Widget>[
-                      _buildResIdField(),
-                      _buildResNameField(),
-                      _buildResLocationField(),
-                      _buildResheadlineField(),
-                      _buildResDescriptionField(),
-                       _buildResRateField(),
-                      _buildReshotlineField(),
-                       _buildResnumseatsField(),
-                      _buildResnumtablesField(),
-                      _buildCatNameField(),
-                      _buildCatIdField(),
-                      //_buildResTimeResField(),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 50.0),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: _buildimageField(),
-                            ),
-                            Spacer(),
-                            RaisedButton(
-                              color: Colors.green[500],
-                              onPressed: () {
-                                if (!_formKey.currentState.validate()) {
-                                  return;
-                                }
-                                _formKey.currentState.save();
-                                setState(() async {
-                                  loading = true;
-                                  // ignore: unused_element
-                                  void getId() async {
-                                    restaurant.rId = result.rid;
-                                    uploadFile(img);
-                                  }
-
-                                  resServ.addRestaurant(restaurant);
-                                });
-                              },
-                              child: Text(
-                                'Add',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                            ),
-                          ],
+                        padding: const EdgeInsets.all(32.0),
+                        child: _buildimageField(),
+                      ),
+                      Spacer(),
+                      RaisedButton(
+                        color: Colors.green[500],
+                        onPressed: () {
+                          if (!_formKey.currentState.validate()) {
+                            return;
+                          }
+                          _formKey.currentState.save();
+                          setState(() async {
+                            // loading = true;
+                            // ignore: unused_element
+                             restaurant.img = await resImgUrl;
+                            // void getId() async {
+                            //   restaurant.rId = result.rId;
+                            //   restaurant.img = await resImgUrl;
+                            // }
+                            Loading();
+                             resServ.addRestaurant(restaurant);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
+                          });
+                        },
+                        child: Text(
+                          'Add',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                      )
+                      ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
-          );
+          ),
+        ],
+      ),
+    );
   }
 }
