@@ -45,6 +45,8 @@ class _AddFormState extends State<AddForm> {
   //   });
   // }
 
+  
+
   Future uploadFile(img) async {
     StorageReference storageReference =
         FirebaseStorage.instance.ref().child('restaurant/${img.path}');
@@ -350,6 +352,7 @@ class _AddFormState extends State<AddForm> {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
+                  
                           _formKey.currentState.save();
                           setState(() async {
                             // loading = true;
@@ -366,6 +369,8 @@ class _AddFormState extends State<AddForm> {
                                 MaterialPageRoute(
                                     builder: (context) => Home()));
                           });
+                        
+
                         },
                         child: Text(
                           'Add',

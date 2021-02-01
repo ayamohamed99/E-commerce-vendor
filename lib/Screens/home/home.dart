@@ -1,13 +1,15 @@
 import 'package:ecommerce/Components/loading.dart';
 import 'package:ecommerce/Models/categoryDetail.dart';
 import 'package:ecommerce/Models/restaurantDetail.dart';
-import 'package:ecommerce/Screens/home/addform.dart';
-import 'package:ecommerce/Screens/sechome.dart';
 import 'package:ecommerce/Services/category.Services.dart';
 import 'package:ecommerce/Services/restaurant.Services.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import '../../Models/restaurantDetail.dart';
+import '../sechome.dart';
+import 'addform.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,7 +18,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // final AuthService _auth = AuthService();
- bool loading = true;
+  bool typing = false;
+  bool loading = true;
   List<CategoryDetail> category;
 
   CategoryService catServ = new CategoryService();
@@ -31,10 +34,10 @@ class _HomeState extends State<Home> {
     _fechRestaurantData();
   }
 
-
-  bool _visible = false;
+  // bool _visible = false;
 
   List<RestaurantDetail> restaurant;
+  List<RestaurantDetail> restaurantall;
   List<RestaurantDetail> resSort;
 
   RestaurantService resServ = new RestaurantService();
@@ -43,12 +46,14 @@ class _HomeState extends State<Home> {
 
   // ignore: missing_return
   Future<List<RestaurantDetail>> _fechRestaurantData() async {
-    restaurant = await resServ.fetchData();
+    restaurantall = await resServ.fetchData();
+    restaurant = restaurantall;
     resSort = await resServ.fetchData();
-     setState(() {
-      if(restaurant != null)
+    setState(() {
+      if (restaurant != null)
         loading = false;
-      else loading = true;
+      else
+        loading = true;
     });
   }
 
@@ -62,6 +67,30 @@ class _HomeState extends State<Home> {
   //   }
   // }
 
+  void _onchangesearch(String str) {
+    List<RestaurantDetail> temp = new List<RestaurantDetail>();
+    for (RestaurantDetail rd in restaurantall) {
+      if (rd.name.contains(str)) {
+        temp.add(rd);
+      }
+    }
+    setState(() {
+      restaurant = temp;
+    });
+  }
+
+  void _onchangesearchcat(String str) {
+    List<RestaurantDetail> temp = new List<RestaurantDetail>();
+    for (RestaurantDetail rd in restaurantall) {
+      if (rd.categoryN == str) {
+        temp.add(rd);
+      }
+    }
+    setState(() {
+      restaurant = temp;
+    });
+  }
+
   Widget dropdownlist(int k) {
     return Container(
       height: 30,
@@ -73,6 +102,8 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  String dropdownValue = 'Categories';
 
   Widget card(BuildContext context, int index) {
     return Container(
@@ -148,9 +179,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ?  Loading()
-     :Scaffold(
-      drawer: Drawer(
+    return loading
+        ? Loading()
+        : Scaffold(
+          
+drawer: Drawer(
           child: Column(children: <Widget>[
         Container(
           width: double.infinity,
@@ -234,69 +267,100 @@ class _HomeState extends State<Home> {
               )),
         ),
       ])),
-
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        
-        title: Text('Vendor App'),
-        backgroundColor: Colors.green[400],
-      ),
-      body: Container(
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Icon(
-                  FontAwesomeIcons.utensils,
-                  size: 15,
-                  color: Colors.amber[600],
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: typing
+                  ? TextField(
+                      onChanged: (text) {
+                        _onchangesearch(text);
+                      },
+                    )
+                  : Text('Vendor App'),
+              backgroundColor: Colors.green[400],
+              actions: [
+                IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      _onchangesearch('');
+                      //print(restaurant);
+                      setState(() {
+                        typing = !typing;
+                      });
+                    })
+              ],
+            ),
+            body: Container(
+              child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Icon(
+                        FontAwesomeIcons.utensils,
+                        size: 20,
+                        color: Colors.amber[600],
+                      ),
+                    ),
+                    Text(
+                      ' The Restaurants ',
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[700],
+                          fontStyle: FontStyle.normal),
+                    ),
+                    Spacer(),
+                    DropdownButton(
+                      value: dropdownValue,
+                      icon: Icon(Icons.list),
+                      iconSize: 25,
+                      elevation: 16,
+                      items: <String>[
+                        'Categories',
+                        'Fast food',
+                        'Pizza',
+                        'Healthy Food',
+                        'Desserts'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                      onChanged: (String newValue) {
+                        newValue == 'Categories'
+                            ? _onchangesearch('')
+                            : _onchangesearchcat(newValue);
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                ' The Restaurants ',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green[700],
-                    fontStyle: FontStyle.normal),
-              ),
-              Spacer(),
-              FlatButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      _visible = !_visible;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.list,
-                    size: 30,
-                  ),
-                  label: Text(
-                    'Categories',
-                    style: TextStyle(fontSize: 20),
-                  )),
-            ],
-          ),
 
-          // Visibility(
-          //   visible: _visible,
-          //   child: Row(children: [
-          //     Expanded(
-          //         child: ListView(children: <Widget>[
-          //       for (k = 0; k < category.length; k++) _bBuildCard()
-          //     ]))
-          //   ]),
-          // ),
-          Expanded(
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: restaurant.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    card(context, index)),
-          ),
-        ]),
-      ),
-    );
+                // Visibility(
+                //   visible: _visible,
+                //   child: Row(children: [
+                //     Expanded(
+                //         child: ListView(children: <Widget>[
+                //       for (k = 0; k < category.length; k++) _bBuildCard()
+                //     ]))
+                //   ]),
+                // ),
+                Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: restaurant.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          card(context, index)),
+                ),
+              ]),
+            ),
+          );
   }
 }

@@ -82,7 +82,7 @@ Future<void>_showMyDialog() async {
 
   // ignore: non_constant_identifier_names
   Container _MyCard(String resImg, String resName, String resDesc,
-      String resHeadline,String adress) {
+      String resHeadline) {
     return Container(
         color: Colors.white,
         width: 150.0,
@@ -261,7 +261,7 @@ Future<void>_showMyDialog() async {
                     restaurant.name,
                     restaurant.description,
                     restaurant.headline,
-                    restaurant.location
+                   
                     ),
               ),
             ],
