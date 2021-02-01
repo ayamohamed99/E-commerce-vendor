@@ -231,7 +231,7 @@ Future<void>_showMyDialog() async {
               icon: Icon(FontAwesomeIcons.utensils),
               label: Text(
                 restaurant.categoryN,
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 20),
               )),),
               SizedBox(height: 30,),
                Container(

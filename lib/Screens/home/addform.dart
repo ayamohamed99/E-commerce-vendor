@@ -95,11 +95,9 @@ class _AddFormState extends State<AddForm> {
       initialValue: rate,
       decoration: InputDecoration(labelText: 'Rate', icon: Icon(Icons.star)),
       // ignore: missing_return
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Rate is Required';
-        }
-      },
+     validator: (val) => int.parse(val) >= 5
+                                ? 'rate have to be 5 or less '
+                                : null,
       onChanged: (value) {
         setState(() {
           rate = value;
@@ -243,12 +241,10 @@ class _AddFormState extends State<AddForm> {
       initialValue: numSeats,
       decoration: InputDecoration(
           labelText: 'Number of seats', icon: Icon(Icons.event_seat)),
+          validator: (val) => int.parse(val) >= 6
+                                ? 'Number of seats less than 6 '
+                                : null,
       // ignore: missing_return
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Number of seats is Required';
-        }
-      },
       onChanged: (value) {
         setState(() {
           numSeats = value;
@@ -265,11 +261,9 @@ class _AddFormState extends State<AddForm> {
       decoration: InputDecoration(
           labelText: 'Number of tables', icon: Icon(Icons.table_chart)),
       // ignore: missing_return
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Number of tables is Required';
-        }
-      },
+     validator: (val) => int.parse(val) >= 4
+                                ? 'Number of tables less than 4 '
+                                : null,
       onChanged: (value) {
         setState(() {
           numTables = value;
