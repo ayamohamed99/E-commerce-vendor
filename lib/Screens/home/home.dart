@@ -10,6 +10,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../../Models/restaurantDetail.dart';
 import '../sechome.dart';
 import 'addform.dart';
+import 'notif.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -230,8 +231,8 @@ drawer: Drawer(
         Container(
           child: FlatButton.icon(
               onPressed: () {
-                //  Navigator.push(
-                //     context, MaterialPageRoute(builder: (context) => Notif()));
+                 Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Notif()));
               },
               icon: Icon(
                 Icons.notifications_active,
