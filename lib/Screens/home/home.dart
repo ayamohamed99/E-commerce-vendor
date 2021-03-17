@@ -230,7 +230,8 @@ drawer: Drawer(
         Container(
           child: FlatButton.icon(
               onPressed: () {
-                
+                //  Navigator.push(
+                //     context, MaterialPageRoute(builder: (context) => Notif()));
               },
               icon: Icon(
                 Icons.notifications_active,
